@@ -64,7 +64,19 @@
         padding: 20px;
         text-align: right;
         font-size: 2.5em;
-        margin-bottom: 20px;
+        margin-bottom: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .expression {
+        background: #1a1a1a;
+        color: #888;
+        padding: 0 20px 10px;
+        text-align: right;
+        font-size: 1.2em;
+        margin-bottom: 15px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -118,6 +130,7 @@
           <div class="dot yellow"></div>
           <div class="dot green"></div>
         </div>
+        <div class="expression" id="expression">0</div>
         <div class="display" id="display">0</div>
       </div>
       <div class="buttons">
@@ -154,9 +167,21 @@
       let currentOperator = "";
       let previousInput = "";
       const display = document.getElementById("display");
+      const expression = document.getElementById("expression");
 
       function updateDisplay(value) {
         display.textContent = value || "0";
+      }
+
+      function updateExpression() {
+        let expressionText = previousInput;
+        if (currentOperator) {
+          expressionText += " " + currentOperator + " ";
+        }
+        if (currentInput) {
+          expressionText += currentInput;
+        }
+        expression.textContent = expressionText || "0";
       }
 
       function appendNumber(num) {
@@ -165,6 +190,7 @@
         }
         currentInput += num;
         updateDisplay(currentInput);
+        updateExpression();
       }
 
       function appendOperator(operator) {
@@ -175,6 +201,7 @@
         previousInput = currentInput;
         currentOperator = operator;
         currentInput = "";
+        updateExpression();
       }
 
       function clearDisplay() {
@@ -182,6 +209,7 @@
         previousInput = "";
         currentOperator = "";
         updateDisplay("0");
+        updateExpression();
       }
 
       function calculate() {
@@ -218,6 +246,7 @@
         previousInput = "";
         currentOperator = "";
         updateDisplay(currentInput);
+        updateExpression();
       }
     </script>
   </body>
